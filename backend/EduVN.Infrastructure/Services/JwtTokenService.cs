@@ -7,14 +7,9 @@ using EduVN.Domain.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace EduVN.Infrastructure.Services;
+using EduVN.Application.Interfaces;
 
-public interface IJwtTokenService
-{
-    string GenerateAccessToken(User user);
-    string GenerateRefreshToken();
-    ClaimsPrincipal? ValidateToken(string token);
-}
+namespace EduVN.Infrastructure.Services;
 
 public class JwtTokenService : IJwtTokenService
 {

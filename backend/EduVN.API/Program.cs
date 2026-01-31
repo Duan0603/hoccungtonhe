@@ -81,9 +81,18 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 // Register services
-builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddScoped<EduVN.Application.Interfaces.IJwtTokenService, EduVN.Infrastructure.Services.JwtTokenService>();
+// Repositories
 builder.Services.AddScoped<EduVN.Application.Interfaces.ICourseRepository, EduVN.Infrastructure.Repositories.CourseRepository>();
+
 builder.Services.AddScoped<EduVN.Application.Interfaces.ILessonRepository, EduVN.Infrastructure.Repositories.LessonRepository>();
+builder.Services.AddScoped<EduVN.Application.Interfaces.IUserRepository, EduVN.Infrastructure.Repositories.UserRepository>();
+builder.Services.AddScoped<EduVN.Application.Interfaces.IRefreshTokenRepository, EduVN.Infrastructure.Repositories.RefreshTokenRepository>();
+builder.Services.AddScoped<EduVN.Application.Interfaces.IOrderRepository, EduVN.Infrastructure.Repositories.OrderRepository>();
+// Services
+builder.Services.AddScoped<EduVN.Application.Interfaces.ICourseService, EduVN.Application.Services.CourseService>();
+builder.Services.AddScoped<EduVN.Application.Interfaces.ILessonService, EduVN.Application.Services.LessonService>();
+builder.Services.AddScoped<EduVN.Application.Interfaces.IAuthService, EduVN.Application.Services.AuthService>();
 
 // Cloudinary configuration from environment variables
 builder.Services.Configure<CloudinarySettings>(options =>
@@ -98,6 +107,15 @@ builder.Services.AddScoped<EduVN.Application.Interfaces.IFileUploadService, EduV
 var googleClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID") ?? "";
 builder.Services.AddScoped<EduVN.Application.Interfaces.IGoogleAuthService>(
     _ => new EduVN.Infrastructure.Services.GoogleAuthService(googleClientId));
+
+// PayOS configuration from environment variables
+builder.Services.Configure<EduVN.Application.Settings.PayOSSettings>(options =>
+{
+    options.ClientId = Environment.GetEnvironmentVariable("PAYOS_CLIENT_ID") ?? "";
+    options.ApiKey = Environment.GetEnvironmentVariable("PAYOS_API_KEY") ?? "";
+    options.ChecksumKey = Environment.GetEnvironmentVariable("PAYOS_CHECKSUM_KEY") ?? "";
+});
+builder.Services.AddScoped<EduVN.Application.Interfaces.IPaymentService, EduVN.Infrastructure.Services.PayOSService>();
 
 // CORS configuration for Next.js frontend
 builder.Services.AddCors(options =>

@@ -11,6 +11,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import { useAuthStore } from '@/lib/store/authStore';
 import VideoPlayer from '@/components/VideoPlayer';
 import AddLessonForm from '@/components/AddLessonForm';
+import PaymentButton from '@/components/PaymentButton';
 
 export default function CourseDetailPage() {
     const params = useParams();
@@ -299,9 +300,22 @@ export default function CourseDetailPage() {
 
                                 {/* Student: Buy/Enroll Button */}
                                 {isStudent && (
-                                    <button className="btn-primary w-full py-4 text-lg mb-4">
-                                        {course.price === 0 ? 'Đăng ký miễn phí' : 'Mua khóa học'}
-                                    </button>
+                                    <>
+                                        {course.price === 0 ? (
+                                            <button
+                                                className="btn-primary w-full py-4 text-lg mb-4"
+                                                onClick={() => alert('Tính năng đăng ký miễn phí đang phát triển')}
+                                            >
+                                                Đăng ký miễn phí
+                                            </button>
+                                        ) : (
+                                            <PaymentButton
+                                                courseId={course.id}
+                                                coursePrice={course.price}
+                                                className="w-full py-4 text-lg mb-4"
+                                            />
+                                        )}
+                                    </>
                                 )}
 
                                 {/* Instructor: Edit Button */}
