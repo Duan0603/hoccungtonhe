@@ -31,9 +31,14 @@ cd backend
 cp ../backend/EduVN.API/.env.example .env
 # (Tùy chọn) Sửa file .env nếu cần
 
-cd EduVN.API
-dotnet ef database update
-dotnet run
+cd backend
+./db-update.bat
+```
+## Cho Mac OS
+```bash
+cd backend
+chmod +x db-update.sh
+./db-update.sh
 ```
 
 ### Bước 3: Setup Frontend (Terminal mới)
